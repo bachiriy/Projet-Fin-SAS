@@ -9,7 +9,7 @@ struct data {
 	int year;
 	char status[20];
 };
-int AT = 0; /* ALL  TASKS */
+int AT = 0; /* ALL  TASKS structures */
 
 struct data tasks[50];
 
@@ -133,13 +133,17 @@ void sorttasks () { 								 /* sort  tasks by title function */
 
 
 
-
+int deletedTasks = 0; /* int that count the deleted tasks */
 
 void deleteTask (int idd) {							/* deleting a task function */
 	for (int i = 0; i < AT; i++) {
-		if (tasks[i].ID == idd){
+		if (tasks[i].ID == idd && idd != 1){
 			tasks[i].ID = -tasks[i].ID;
-			if (tasks[i].ID == 1) {tasks[i].ID = 0;}
+                        deletedTasks = deletedTasks + 1;
+			if (tasks[i].ID == 1) {
+				tasks[i].ID = 0;
+			        deletedTasks = deletedTasks + 1;
+			}
 		}
 	}
 }
@@ -211,7 +215,6 @@ while (1) {
 		printf("1: To Sort tasks alphabetically.\n");
                 printf("2: To Sort tasks by deadline.\n");
                 printf("3: To Display tasks with a deadline within the next 3 days.\n");
-                printf("0: To go Back to the Menu.\n");
                 printf("I choose : ");
 		int displayCases;
 		scanf("%d", &displayCases);
@@ -287,7 +290,31 @@ while (1) {
 
 		/* 7) Statistics */
 		case 7:
-		break;
+                printf("Enter a Number to ->\n");
+                printf("1: To Show the total number of tasks.\n");
+                printf("2: To Show the number of complete and incomplete tasks.\n");
+                printf("3: To Show the number of days remaining until each task's deadline.\n");
+                printf("I choose : ");
+                int statisticCases;
+                scanf("%d", &statisticCases);
+
+                switch (statisticCases) {
+                        /* statistic 1 -> total tasks */
+                        case 1:
+			int numberTasks;
+			numberTasks = AT - deletedTasks;
+                        break;
+
+                        /* statistic 2 ->  complete and incomplete tasks */
+                        case 2:
+                        break;
+
+                        /* statistic 3 -> Days left until each task's deadline */
+                        case 3:
+                        break;
+                }
+                printf("\n\n");
+                break;
 
 		/* 0) Exit */
 		case 0:
