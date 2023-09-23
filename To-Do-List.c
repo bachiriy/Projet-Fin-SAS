@@ -39,7 +39,7 @@ void addtask(int HM) {									/* add tasks function */
 		    	strcpy(tasks[i].status, "in progress");
 		    	break;
 		    	case 3:
-		    	strcpy(tasks[i].status, "done");
+		    	strcpy(tasks[i].status, "completed");
 		    	break;
 		   	default:
 			printf("status not valid !\n");
@@ -55,32 +55,39 @@ void addtask(int HM) {									/* add tasks function */
 
 
 
-void modifytasks (int id) { 							 /* modify function */
+void modifytasks (int id) { 						 /* modify function */
 	for (int i = 0; i < AT; i++) {
 		if (tasks[i].ID == id) {
-                printf("Enter a Number to ->\n");
-                printf("1: To Edit the description of a task.\n");
-                printf("2: To Change the status of a task.\n");
-                printf("3: To Change the deadline for a task.\n");
-                printf("0: To go Back to the Menu.\n");
+                printf("      Enter a Number to ->\n");
+                printf("      1: To Edit the description of a task.\n");
+                printf("      2: To Change the status of a task.\n");
+                printf("      3: To Change the deadline for a task.\n");
+                printf("      0: To go Back to the Menu.\n");
+		printf("      I choose : ");
 		int m;
 		scanf("%d", &m);
+		printf("\n\n");
 		switch (m) {
+			/* new description case */
 			case 1:
-			printf("enter new description: ");
-			char  nd[150]; /* new description */
-			scanf(" %[^\n]", nd);
-			strcpy(tasks[i].description, nd);
+			printf("     Enter the new Description: ");
+			char  newDescription[150];
+			scanf(" %[^\n]", newDescription);
+			strcpy(tasks[i].description, newDescription);
 			break;
 
 			case 2:
-			printf("enter the new status: \n");
-        	        printf("1: to do \n");
-	                printf("2: in progress \n");
-	                printf("3: completed \n");
-			int ns; /* new status */
-			scanf("%d", &ns);
-			switch (ns) {
+			printf("      Enter the new Status: \n");
+        	        printf("      1: 'to do' \n");
+	                printf("      2: 'in progress' \n");
+	                printf("      3: 'completed' \n");
+			printf("      I choose : ");
+			int newStatusCases;
+			scanf("%d", &newStatusCases);
+
+	                printf("\n\n");
+
+			switch (newStatusCases) {
 				case 1:
                      	        strcpy(tasks[i].status, "to do");
                                 break;
@@ -88,14 +95,16 @@ void modifytasks (int id) { 							 /* modify function */
                                 strcpy(tasks[i].status, "in progress");
                                 break;
                                 case 3:
-                                strcpy(tasks[i].status, "done");
+                                strcpy(tasks[i].status, "completed");
                                 break;
                                 default:
-                                printf("status not valid !\n");
+                                printf("   Status not valid !\n");
                                 break;
 			}
-			case 3: /* new deadline */
-			printf("enter the new deadline (DD/MM/YYY) : ");
+
+			/* case new deadline */
+			case 3:
+			printf("Enter the new deadline (DD/MM/YYY) : ");
 			int day, month, year;
 			scanf("%d/%d/%d", &day, &month, &year);
 	                tasks[i].day = day;
@@ -115,16 +124,14 @@ void modifytasks (int id) { 							 /* modify function */
 
 
 
-
-
-void sorttasks () { 								 /* sort  tasks by title function */
+void sortByTitle () {                                            /* sort  tasks by title function */
         struct data sort;
-        for (int i = 0; i < AT - 1; i++) {
-                for (int j = 0; j < AT - i - 1; j++) {
-                        if (strcmp(tasks[j].title, tasks[j + 1].title) > 0) {
-                                sort = tasks[j];
-                                tasks[j] = tasks[j + 1];
-                                tasks[j + 1] = sort;
+        for (int i = 0; i < AT; i++) {
+                for (int j = i + 1; j < AT; j++) {
+                        if (strcmp(tasks[i].title, tasks[j].title) > 0) {
+                                sort = tasks[i];
+                                tasks[i] = tasks[j];
+                                tasks[j] = sort;
                         }
                 }
         }
@@ -132,18 +139,36 @@ void sorttasks () { 								 /* sort  tasks by title function */
 
 
 
+void sortByDeadline () {			/* sorting tasks by deadline function */
+        struct data sort;
+        for (int i = 0; i < AT; i++) {
+                for (int j = i + 1; j < AT; j++) {
+                        if (tasks[i].year > tasks[j].year) {
+                                sort = tasks[j];
+                                tasks[i] = tasks[j];
+                                tasks[j] = sort;
+			} else if (tasks[i].year == tasks[j].year && tasks[i].month > tasks[j].month) {
+				sort = tasks[j];
+                                tasks[i] = tasks[j];
+                                tasks[j] = sort;
+			} else if (tasks[i].year == tasks[j].year && tasks[i].month == tasks[j].month && tasks[i].day > tasks[j].day) {
+				sort = tasks[j];
+                                tasks[i] = tasks[j];
+                                tasks[j] = sort;
+			}
+                }
+        }
+}
+
+
 
 int deletedTasks = 0; /* int that count the deleted tasks */
 
 void deleteTask (int idd) {							/* deleting a task function */
 	for (int i = 0; i < AT; i++) {
-		if (tasks[i].ID == idd && idd != 1){
+		if (tasks[i].ID == idd){
 			tasks[i].ID = -tasks[i].ID;
                         deletedTasks = deletedTasks + 1;
-			if (tasks[i].ID == 1) {
-				tasks[i].ID = 0;
-			        deletedTasks = deletedTasks + 1;
-			}
 		}
 	}
 }
@@ -175,17 +200,22 @@ void SearchByTitle (const char ts[20]) {					/* search for tasks by title functi
 
 int main() {
 while (1) {
-	printf("<< ToDo List Menu >>\n");
-	printf("Enter a Number To -> \n");
-	printf("1: To Add a New Task. \n");
-	printf("2: To Add Multiple New Tasks. \n");
-	printf("3: To Display the List of All Tasks. \n");
-	printf("4: To Modify a Task. \n");
-	printf("5: To Delete a Task by ID. \n");
-	printf("6: To Search for Tasks. \n");
-	printf("7: To Statistics. \n");
-	printf("0: To Exit. \n");
-	printf("I choose : ");
+        printf("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°\n");
+        printf("°                  <<  ToDo List Menu  >>                    °\n");
+        printf("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°\n");
+	printf("°                                                            °\n");
+	printf("°       Enter a Number To ->                                 °\n");
+	printf("°       1: To Add a New Task.                                °\n");
+	printf("°       2: To Add Multiple New Tasks.                        °\n");
+	printf("°       3: To Display the List of All Tasks.                 °\n");
+	printf("°       4: To Modify a Task.                                 °\n");
+	printf("°       5: To Delete a Task by ID.                           °\n");
+	printf("°       6: To Search for Tasks.                              °\n");
+	printf("°       7: To Statistics.                                    °\n");
+	printf("°       0: To Exit.                                          °\n");
+	printf("°                                                            °\n");
+        printf("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°\n");
+        printf("       I choose : ");
 	int x;
 	scanf("%d", &x);
 	int exit1 = 0;
@@ -203,7 +233,7 @@ while (1) {
 
 		/* 2) To Add Multiple New Tasks */
 		case 2:
-		printf("How Many Tasks you Want to Add ? : ");
+		printf("      How Many Tasks you Want to Add ? : ");
 	        scanf("%d", &a);
 		addtask(a);
                 printf("\n\n");
@@ -211,18 +241,19 @@ while (1) {
 
 		/* 3) Display the List of All Tasks */
 		case 3:
-                printf("Enter a Number to ->\n");
-		printf("1: To Sort tasks alphabetically.\n");
-                printf("2: To Sort tasks by deadline.\n");
-                printf("3: To Display tasks with a deadline within the next 3 days.\n");
-                printf("I choose : ");
+                printf("      Enter a Number to ->\n");
+		printf("      1: To Sort tasks alphabetically.\n");
+                printf("      2: To Sort tasks by deadline.\n");
+                printf("      3: To Display tasks with a deadline within the next 3 days.\n");
+                printf("      I choose : ");
 		int displayCases;
 		scanf("%d", &displayCases);
+                printf("\n\n");
 
 		switch (displayCases) {
 			/*Display 1 -> Sort tasks alphabetically*/
 			case 1:
-			sorttasks();
+			sortByTitle();
 			for (int i = 0; i < AT; i++) {
 				if (tasks[i].ID > 0) {
 					printf("ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s.\n", tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status);
@@ -232,6 +263,12 @@ while (1) {
 
 			/*Display 2 ->  Sort tasks by deadline */
 			case 2:
+			sortByDeadline();
+                        for (int i = 0; i < AT; i++) {
+                                if (tasks[i].ID > 0) {
+		                        printf("ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s.\n", tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status);
+				}
+			}
 			break;
 
 			/* Display 3 -> Display tasks with a deadline within the next 3 days */
@@ -243,34 +280,40 @@ while (1) {
 
 		/* 4) Modify a Task */
 		case 4:
-                printf("What task you want to modify ? (enter the task's ID) : ");
+                printf("\n\n");
+                printf("      What task you want to modify ? (enter the task's ID) : ");
                 int id;
                 scanf("%d", &id);
 		modifytasks(id);
-                printf("task modified ! \n");
+                printf("\n   Task modified ! \n");
+                printf("\n\n");
 		break;
 
 		/* 5) Delete a Task by ID */
 		case 5:
-		printf("enter the ID of the task you wanna delete : ");
+                printf("\n\n");
+		printf("      Enter the ID of the task you want to  Delete : ");
 		int did;
 		scanf("%d", &did);
 		deleteTask(did);
-                printf("task deleted !\n");
+                printf("\n   Task deleted !\n");
+                printf("\n\n");
 		break;
 
 		/* 6) Search for Tasks */
 		case 6:
-		printf("search for tasks -> \n");
-		printf("1: Search for a task by ID \n");
-		printf("2: Search for a task by its Title \n");
-		printf("I choose : ");
+                printf("\n\n");
+		printf("       search for tasks -> \n");
+		printf("       1: Search for a task by ID \n");
+		printf("       2: Search for a task by its Title \n");
+		printf("       I choose : ");
 		int searchCases;
 		scanf("%d", &searchCases);
+                printf("\n\n");
 		switch (searchCases) {
 			/* Search 1 -> Search for a task by ID */
 			case 1:
-			printf("Enter the ID : ");
+			printf("     Enter the ID : ");
 			int idSearch;
 			scanf("%d", &idSearch);
 			SearchByID(idSearch);
@@ -279,34 +322,54 @@ while (1) {
 
 			/* Search 1 -> Search for a task by its Title */
 			case 2:
-                        printf("Enter the Title : ");
+                        printf("     Enter the Title : ");
                         char titleSearch[20];
 			scanf(" %[^\n]", titleSearch);
                         SearchByTitle(titleSearch);
-                        printf("\n\n");
+                        printf("\n");
 			break;
 		}
+                printf("\n\n");
 		break;
 
 		/* 7) Statistics */
 		case 7:
-                printf("Enter a Number to ->\n");
-                printf("1: To Show the total number of tasks.\n");
-                printf("2: To Show the number of complete and incomplete tasks.\n");
-                printf("3: To Show the number of days remaining until each task's deadline.\n");
-                printf("I choose : ");
+                printf("\n\n");
+                printf("       Enter a Number to ->\n");
+                printf("       1: To Show the total number of tasks.\n");
+                printf("       2: To Show the number of complete and incomplete tasks.\n");
+                printf("       3: To Show the number of days remaining until each task's deadline.\n");
+                printf("       I choose : ");
                 int statisticCases;
                 scanf("%d", &statisticCases);
+                printf("\n\n");
 
                 switch (statisticCases) {
                         /* statistic 1 -> total tasks */
                         case 1:
 			int numberTasks;
 			numberTasks = AT - deletedTasks;
+			printf("\n     Total number of tasks is : %d", numberTasks);
+			printf("\n\n");
                         break;
 
                         /* statistic 2 ->  complete and incomplete tasks */
                         case 2:
+			int nCompleted = 0; /* number of tasks complete */
+			for (int i = 0; i < AT; i++) {
+				if (strcmp(tasks[i].status, "completed") == 0 && tasks[i].ID > 0) {
+					nCompleted = nCompleted + 1;
+				}
+			}
+                        int nIncompleted = 0; /* number of tasks incompleted */
+                        for (int i = 0; i < AT; i++) {
+                                if (strcmp(tasks[i].status, "in progress") == 0 || strcmp(tasks[i].status, "to do") == 0 && tasks[i].ID > 0) {
+                                        nIncompleted = nIncompleted + 1;
+                                }
+                        }
+                	printf("     Number of completeted tasks : %d \n", nCompleted);
+                	printf("     Number of incompleted tasks : %d ", nIncompleted);
+	                printf("\n\n");
                         break;
 
                         /* statistic 3 -> Days left until each task's deadline */
@@ -322,7 +385,7 @@ while (1) {
 		break;
 
 		default:
-		printf("nto valid !\n");
+		printf("Not  valid !\n");
 		break;
 	}
 
