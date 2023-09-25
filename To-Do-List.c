@@ -212,7 +212,7 @@ struct data {
 		}
 	}
 
- // Sort days left until each task's deadline
+ // display tasks with days left until each task's deadline
 	void daysLeft(){
 		for (int i = 0; i < NT; i++) {
 				time_t nowSeconds = time(NULL);  // how many seconds from 1970 until now
@@ -223,7 +223,7 @@ struct data {
 
 				if (tasks[i].ID > 0) // to not print the deleted tasks
 					printf("ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s. | %d Day(s) left.\n\n", 
-									tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status, diffrent);
+						tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status, diffrent);
 		}
 	}
 
