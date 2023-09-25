@@ -164,7 +164,7 @@ struct data {
 
 
 // display tasks with a deadline within the next 3 days
-	void sortDealineWithin3Days() {
+	void displayDealineWithin3Days() {
 		for (int i = 0; i < NT; i++) {
 			time_t nowSeconds = time(NULL);  // how many seconds from 1970 until now
 
@@ -302,7 +302,7 @@ struct data {
 
 						// Display tasks with a deadline within the next 3 days
 							case 3:
-								sortDealineWithin3Days();
+								displayDealineWithin3Days();
 								break;
 					}
 					printf("\n\n");
