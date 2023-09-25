@@ -20,11 +20,11 @@ struct data {
 	int NT = 0; // NT = Number of Tasks
 
 // global variable that count the number of deleted tasks
-	int deletedTasks = 0; 
+	int deletedTasks = 0;
 
 
 // Add Tasks
-	void addtask(int HM) { 
+	void addtask(int HM) {
 		for (int i = NT; i < NT + HM; i++) { // HM = How Many tasks to add
 			printf("       Title : ");
 			scanf(" %[^\n]", tasks[i].title); // %[^\n] to scan text with spaces
@@ -38,6 +38,7 @@ struct data {
 			printf("       3 : 'completed' \n");
 			printf("       I choose : ");
 			int statusCase;
+			int exit = 0;
 			scanf("%d", &statusCase);
 			switch (statusCase) {
 				case 1:
@@ -49,17 +50,14 @@ struct data {
 				case 3:
 					strcpy(tasks[i].status, "completed");
 					break;
-				default:
-					printf("       Status not valid !\n");
-					break;
+			}
+			tasks[i].ID = i + 1; // add 1 each time so the ID is unique (starting from 1)
 		}
-		tasks[i].ID = i + 1; // add 1 each time so the ID is unique
+
+		NT = NT + HM; // to update the nember of tasks by adding how many tasks we just added
 	}
 
-	NT = NT + HM; // to update the nember of tasks by adding how many tasks we just added
-}
-
- // Modify tasks by ID 
+ // Modify tasks by ID
 	void modifytasks(int id) {
 		for (int i = 0; i < NT; i++) {
 			if (tasks[i].ID == id) {  // find the task then ask what to modify
