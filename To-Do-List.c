@@ -163,7 +163,7 @@ struct data {
 		}
 
 
-// Sort tasks with a deadline within the next 3 days
+// display tasks with a deadline within the next 3 days
 	void sortDealineWithin3Days() {
 		for (int i = 0; i < NT; i++) {
 			time_t nowSeconds = time(NULL);  // how many seconds from 1970 until now
