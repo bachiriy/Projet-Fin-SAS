@@ -62,14 +62,14 @@ struct data {
  // Modify tasks by ID 
 	void modifytasks(int id) {
 		for (int i = 0; i < NT; i++) {
-			if (tasks[i].ID == id) {
+			if (tasks[i].ID == id) {  // find the task then ask what to modify
 				printf("      Enter a Number to ->\n");
 				printf("      1 : To Edit the description of a task.\n");
 				printf("      2 : To Change the status of a task.\n");
 				printf("      3 : To Change the deadline for a task.\n");
 				printf("      I choose : ");
 				int modifyCases;
-				scanf("%d", &modifyCases);
+				scanf("%d", &modifyCases); // scan a number
 				printf("\n\n");
 				switch (modifyCases) {
 					// 1 : new description case
@@ -109,7 +109,7 @@ struct data {
 				case 3:
 					printf("       Enter the new deadline (DD/MM/YYY) : ");
 					int day, month, year;
-					scanf("%d/%d/%d", &day, &month, &year);
+					scanf("%d/%d/%d", &day, &month, &year); // scan the new day, month, year
 					tasks[i].day = day;
 					tasks[i].month = month;
 					tasks[i].year = year;
@@ -126,8 +126,8 @@ struct data {
 
 
 // Sort tasks by title
-	void sortByTitle() { 
-		struct data empty;
+	void sortByTitle() {
+		struct data empty; // empty structure to use in the swapping
 		for (int i = 0; i < NT; i++) {
 			for (int j = i + 1; j < NT; j++) {
 				if (strcmp(tasks[i].title, tasks[j].title) > 0) {
@@ -142,7 +142,7 @@ struct data {
 
 // Sort tasks by deadline
 	void sortByDeadline() {
-		struct data empty;
+		struct data empty; // empty stucture to use to swap tasks
 			for (int i = 0; i < NT; i++) {
 				for (int j = i + 1; j < NT; j++) {
 					if (tasks[i].year > tasks[j].year) {
@@ -184,9 +184,9 @@ struct data {
 
 
 // Delete a task by ID
-	void deleteTask(int idd) { 
+	void deleteTask(int idd) {
 		for (int i = 0; i < NT; i++) {
-			if (tasks[i].ID == idd) {
+			if (tasks[i].ID == idd) { // when find the task make its ID negative
 				tasks[i].ID = -tasks[i].ID;
 				deletedTasks = deletedTasks + 1;
 			}
@@ -195,9 +195,9 @@ struct data {
 
 
 // Search for Tasks by ID
-	void SearchByID(int id) { 
+	void SearchByID(int id) {
 		for (int i = 0; i < NT; i++) {
-			if (tasks[i].ID == id) {
+			if (tasks[i].ID == id) { // find the tasks by ID and prinf it
 			printf("ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s.\n", tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status);
 			}
 		}
@@ -207,7 +207,7 @@ struct data {
 // Search for Tasks by title
 	void SearchByTitle(char searchedTitle[20]) {
 		for (int i = 0; i < NT; i++) {
-			if ((strcmp(tasks[i].title, searchedTitle) == 0) && tasks[i].ID > 0) {
+			if ((strcmp(tasks[i].title, searchedTitle) == 0) && tasks[i].ID > 0) { // task title - searchedTitle = 0 means there is no diffrent
 				printf(" ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s.\n",
 				 tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status);
 			}
@@ -223,7 +223,7 @@ struct data {
 				int deadlineInDays = tasks[i].year*365 + tasks[i].month * 30 + tasks[i].day; // convert deadline to days
 				int diffrent = deadlineInDays- totalDaysUntilNow; // diffrence between deadline and now in days
 
-				if (tasks[i].ID > 0)
+				if (tasks[i].ID > 0) // to not print the deleted tasks
 					printf("ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s. | %d Day(s) left.\n\n", 
 									tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status, diffrent);
 		}
@@ -264,8 +264,8 @@ struct data {
 				case 2:
 					int multipleTasks;
 					printf("       How Many Tasks you Want to Add ? : ");
-					scanf("%d", &multipleTasks);
-					addtask(multipleTasks);
+					scanf("%d", &multipleTasks); // scan how many tasks wanted to be added
+					addtask(multipleTasks); // put it in the function
 					printf("\n\n");
 					break;
 
@@ -310,7 +310,7 @@ struct data {
 					printf("\n\n");
 					break;
 
-			// 4 : Modify a Task 
+			// 4 : Modify a Task
 				case 4:
 					printf("\n\n");
 					printf("      What task you want to modify ? (enter the task's ID) : ");
@@ -321,7 +321,7 @@ struct data {
 					printf("\n\n");
 					break;
 
-			// 5 : Delete a Task by ID 
+			// 5 : Delete a Task by ID
 				case 5:
 					printf("\n\n");
 					printf("      Enter the ID of the task you want to  Delete : ");
@@ -341,7 +341,7 @@ struct data {
 					printf("       I choose : ");
 					int searchCases;
 					scanf("%d", &searchCases);
-					printf("\n\n"); 
+					printf("\n\n");
 					switch (searchCases) {
 					// by ID
 						case 1:
@@ -352,7 +352,7 @@ struct data {
 							printf("\n");
 							break;
 
-					// by Title 
+					// by Title
 						case 2:
 							printf("     Enter the Title : ");
 							char searchTitle[20];
@@ -364,7 +364,7 @@ struct data {
 					printf("\n\n");
 					break;
 
-			// 7 : Statistics 
+			// 7 : Statistics
 				case 7:
 					printf("\n\n");
 					printf("       Enter a Number to ->\n");
@@ -411,12 +411,12 @@ struct data {
 					printf("\n\n");
 					break;
 
-			// 0 : Exit 
+			// 0 : Exit
 				case 0:
 					exit = 1;
 					break;
 
-			// defailt 
+			// defailt
 				default:
 					printf("       Option not  valid !\n\n");
 					break;
