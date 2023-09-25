@@ -221,9 +221,10 @@ struct data {
 				int deadlineInDays = tasks[i].year*365 + tasks[i].month * 30 + tasks[i].day; // convert deadline to days
 				int diffrent = deadlineInDays- totalDaysUntilNow; // diffrence between deadline and now in days
 
-				if (tasks[i].ID > 0) // to not print the deleted tasks
+				if (tasks[i].ID > 0) { // to not print the deleted tasks
 					printf("ID: %d, Title: %s, Description: %s, Deadline: %d/%d/%d, Status: %s. | %d Day(s) left.\n\n", 
 						tasks[i].ID, tasks[i].title, tasks[i].description, tasks[i].day, tasks[i].month, tasks[i].year, tasks[i].status, diffrent);
+				}
 		}
 	}
 
