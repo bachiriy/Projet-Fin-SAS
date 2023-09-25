@@ -53,7 +53,7 @@ struct data {
 					printf("       Status not valid !\n");
 					break;
 		}
-		tasks[i].ID = i + 1; // add 1 each time so the ID is unique 
+		tasks[i].ID = i + 1; // add 1 each time so the ID is unique
 	}
 
 	NT = NT + HM; // to update the nember of tasks by adding how many tasks we just added
